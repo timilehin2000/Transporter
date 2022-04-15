@@ -30,12 +30,18 @@ const registerUser = async (payload) => {
         password: payload.password,
     });
 
-    let token = generateJWT(user);
+    let token = generateJWT(newUser);
 
     const savedUser = await newUser.save();
 
     if (!savedUser) {
         return makeResponse(fasle, "REGISTER_FAILED", {});
     }
-    return makeResponse(true, "REGISTER_SUCCESS", { user, token });
+    return makeResponse(true, "REGISTER_SUCCESS", { newUser, token });
+};
+
+const loginUser = async (payload) => {};
+
+module.exports = {
+    registerUser,
 };

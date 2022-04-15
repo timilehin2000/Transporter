@@ -31,7 +31,7 @@ userSchema.pre("save", async function (next) {
         return next();
     }
 
-    const salt = await bcrypt.genSalt(process.env.SALT);
+    const salt = await bcrypt.genSalt();
 
     const hash = await bcrypt.hashSync(user.password, salt);
 

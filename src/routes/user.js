@@ -1,4 +1,5 @@
 const express = require("express");
+const { register } = require("../controller/user");
 const {
     validateRegisterPayload,
     validateLoginPayload,
@@ -6,7 +7,7 @@ const {
 
 const userRouter = express.Router();
 
-userRouter.post("/register", validateRegisterPayload);
-userRouter.post("/login", validateLoginPayload);
+userRouter.post("/auth/register", validateRegisterPayload, register);
+userRouter.post("/auth/login", validateLoginPayload);
 
 module.exports = userRouter;

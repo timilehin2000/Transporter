@@ -2,15 +2,10 @@ const express = require("express");
 const dotenv = require("dotenv").config();
 const connectDb = require("./database/transporter");
 const index = require("./routes/index");
-
 const app = express();
 
-app.use("*", (req, res) => {
-    res.status(404).json({
-        status: false,
-        error: "Lol, You lost your way bro 😥",
-    });
-});
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 //handle route here
 index(app);
@@ -20,3 +15,5 @@ app.listen(port, () => {
     console.log(`App is running on port ${port}`);
     connectDb();
 });
+
+module.exports = app;
