@@ -1,5 +1,5 @@
 const express = require("express");
-const { register } = require("../controller/user");
+const { register, login } = require("../controller/user");
 const {
     validateRegisterPayload,
     validateLoginPayload,
@@ -8,6 +8,6 @@ const {
 const userRouter = express.Router();
 
 userRouter.post("/auth/register", validateRegisterPayload, register);
-userRouter.post("/auth/login", validateLoginPayload);
+userRouter.post("/auth/login", validateLoginPayload, login);
 
 module.exports = userRouter;

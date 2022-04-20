@@ -35,13 +35,23 @@ const registerUser = async (payload) => {
     const savedUser = await newUser.save();
 
     if (!savedUser) {
-        return makeResponse(fasle, "REGISTER_FAILED", {});
+        return makeResponse(false, "REGISTER_FAILED", {});
     }
     return makeResponse(true, "REGISTER_SUCCESS", { newUser, token });
 };
 
-const loginUser = async (payload) => {};
+const loginUser = async (payload) => {
+    const existingUser = await findUserByEmail(payload.email);
+    if (!existingUser) {
+        return makeResponse(false, "INVALID_CREDENTIALS", {});
+    }
+
+    const comparePassword = await existingUser.comparePassword(
+        payload.password
+    );
+};
 
 module.exports = {
     registerUser,
+    loginUser,
 };

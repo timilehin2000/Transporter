@@ -1,4 +1,4 @@
-const { registerUser } = require("../dao/user");
+const { registerUser, loginUser } = require("../dao/user");
 const {
     sendSuccessResponse,
     sendErrorResponse,
@@ -21,6 +21,15 @@ const register = async (req, res) => {
     }
 };
 
+const login = async (req, res) => {
+    try {
+        const login = await loginUser(req.body);
+    } catch (err) {
+        console.log(err);
+    }
+};
+
 module.exports = {
     register,
+    login,
 };

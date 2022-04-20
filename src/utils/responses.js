@@ -4,14 +4,14 @@ const makeResponse = (status, message, data) => {
     if (status) {
         return {
             status,
-            message: message,
-            data: data,
+            message,
+            data,
         };
     }
     return {
         status,
-        message: message,
-        data: data,
+        message,
+        data,
     };
 };
 
@@ -19,7 +19,7 @@ const sendSuccessResponse = (res, message, data, statusCode = 200) => {
     return res.status(statusCode).json({
         status: true,
         message: handler.getMessages(message) || message,
-        data: data,
+        data,
     });
 };
 
@@ -27,7 +27,7 @@ const sendErrorResponse = (res, message, data, statusCode = 400) => {
     return res.status(statusCode).json({
         status: false,
         message: handler.getMessages(message) || message,
-        data: data,
+        data,
     });
 };
 
