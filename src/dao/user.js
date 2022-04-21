@@ -1,3 +1,4 @@
+const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const UserModel = require("../models/user");
 const { makeResponse } = require("../utils/responses");
@@ -42,13 +43,22 @@ const registerUser = async (payload) => {
 
 const loginUser = async (payload) => {
     const existingUser = await findUserByEmail(payload.email);
+
     if (!existingUser) {
         return makeResponse(false, "INVALID_CREDENTIALS", {});
     }
 
-    const comparePassword = await existingUser.comparePassword(
+    const validatePassword = await existingUser.comparePassword(
         payload.password
     );
+
+    if (!validatePassword) {
+        return makeResponse(false, "INVALID_CREDENTIALS", {});
+    }
+
+    let token = generateJWT(existingUser);
+
+    return makeResponse(true, "LOGIN_SUCCESS", { user: existingUser, token });
 };
 
 module.exports = {

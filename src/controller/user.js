@@ -24,8 +24,13 @@ const register = async (req, res) => {
 const login = async (req, res) => {
     try {
         const login = await loginUser(req.body);
+        if (login.status) {
+            return sendSuccessResponse(res, login.message, login.data, 200);
+        }
+        return sendErrorResponse(res, login.message, {}, 400);
     } catch (err) {
         console.log(err);
+        return sendErrorResponse(res, "UKNOWN_ERROR", {}, 500);
     }
 };
 
