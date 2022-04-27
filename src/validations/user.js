@@ -1,5 +1,9 @@
 const Joi = require("joi");
-const { handleValidationError } = require("../utils/responses");
+const { verifyToken } = require("../dao/user");
+const {
+    handleValidationError,
+    sendErrorResponse,
+} = require("../utils/responses");
 
 const registerPayloadValidation = (payload) => {
     const schema = Joi.object({
@@ -35,7 +39,23 @@ const validateLoginPayload = (req, res, next) => {
     return next();
 };
 
+const authTokenRequired = async (req, res, next) => {
+    const token = req.headers.authorization;
+
+    if (!token) {
+        sendErrorResponse(res, "TOKEN_ERROR", {}, 401);
+    }
+
+    const verified = await verifyToken(token.split(" ")[1]);
+    if (!verified.status) {
+        sendErrorResponse(res, verified.message, {}, 401);
+    }
+    req.user = verified.data;
+    return next();
+};
+
 module.exports = {
     validateRegisterPayload,
     validateLoginPayload,
+    authTokenRequired,
 };

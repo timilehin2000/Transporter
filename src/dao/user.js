@@ -60,8 +60,34 @@ const loginUser = async (payload) => {
 
     return makeResponse(true, "LOGIN_SUCCESS", { user: existingUser, token });
 };
+/**
+ * verifyToken
+ *
+ * @param {object} req
+ * @param {object} res
+ * @param {object} next
+ */
+
+const verifyToken = async (token) => {
+    if (!token) {
+        return makeResponse(false, TOKEN_ERROR, {});
+    }
+
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+
+        const user = await UserModel.findOne(decoded._id);
+        if (!user) {
+            return makeResponse(false, INVALID_TOKEN, {});
+        }
+        return makeResponse(true, "", user);
+    } catch (err) {
+        return makeResponse(false, INVALID_TOKEN, {});
+    }
+};
 
 module.exports = {
     registerUser,
     loginUser,
+    verifyToken,
 };
