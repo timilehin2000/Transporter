@@ -16,9 +16,13 @@ const addBusPayloadValidation = (payload) => {
 };
 
 const validateAddBusPayload = (req, res, next) => {
-    const validated = validateAddBusPayload(req.body);
+    const validated = addBusPayloadValidation(req.body);
     if (validated.error) {
         return handleValidationError(validated, res);
     }
     return next();
+};
+
+module.exports = {
+    validateAddBusPayload,
 };
