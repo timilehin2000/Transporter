@@ -19,4 +19,13 @@ const addBus = async (payload) => {
     }
 };
 
-module.exports = { addBus };
+const getAllBuses = async () => {
+    try {
+        const buses = await BusModel.find();
+        return makeResponse(true, "BUSES_FETCHED", buses);
+    } catch (err) {
+        return makeResponse(false, "UNKNOWN_ERROR", {});
+    }
+};
+
+module.exports = { addBus, getAllBuses };

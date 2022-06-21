@@ -15,6 +15,7 @@ class Message {
             ONLY_ADMIN: "Only Admins are allowed to take this action",
             ONLY_USER: "Only users are allowed take this action",
             BUS_ADDED: "New bus has been successfully added",
+            BUSES_FETCHED: "Buses fetched succesfully",
         };
     }
     getMessages(key) {

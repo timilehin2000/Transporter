@@ -1,5 +1,5 @@
 const express = require("express");
-const { addBusDetails } = require("../controller/bus");
+const { addBusDetails, fetchAllBuses } = require("../controller/bus");
 const { onlyAdmin, authTokenRequired } = require("../middleware/auth");
 const { validateAddBusPayload } = require("../validations/bus");
 
@@ -12,6 +12,7 @@ busRouter.post(
     onlyAdmin,
     addBusDetails
 );
-// busRouter.post("/auth/", validateLoginPayload, login);
+
+busRouter.get("/bus", authTokenRequired, onlyAdmin, fetchAllBuses);
 
 module.exports = busRouter;

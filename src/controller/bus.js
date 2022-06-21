@@ -1,4 +1,4 @@
-const { addBus } = require("../dao/bus");
+const { addBus, getAllBuses } = require("../dao/bus");
 const {
     sendErrorResponse,
     sendSuccessResponse,
@@ -21,4 +21,21 @@ const addBusDetails = async (req, res) => {
     }
 };
 
-module.exports = { addBusDetails };
+const fetchAllBuses = async (req, res) => {
+    try {
+        const fetchBus = await getAllBuses();
+        if (fetchBus.status) {
+            return sendSuccessResponse(
+                res,
+                fetchBus.message,
+                fetchBus.data,
+                200
+            );
+        }
+        return sendErrorResponse(res, createBus.message, {}, 400);
+    } catch (err) {
+        return sendErrorResponse(res, "UKNOWN_ERROR", {}, 500);
+    }
+};
+
+module.exports = { addBusDetails, fetchAllBuses };
