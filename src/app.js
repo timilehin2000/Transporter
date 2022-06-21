@@ -1,7 +1,7 @@
-const express = require("express");
-const dotenv = require("dotenv").config();
-const connectDb = require("./database/transporter");
-const index = require("./routes/index");
+const express = require('express');
+const dotenv = require('dotenv').config();
+const connectDb = require('./config/transporter');
+const index = require('./routes/index');
 const app = express();
 
 app.use(express.json());

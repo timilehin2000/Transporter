@@ -1,4 +1,4 @@
-const handler = require("./message");
+const handler = require('./message');
 
 const makeResponse = (status, message, data) => {
     if (status) {

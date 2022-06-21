@@ -1,8 +1,8 @@
-const { registerUser, loginUser } = require("../dao/user");
+const { registerUser, loginUser } = require('../dao/user');
 const {
     sendSuccessResponse,
     sendErrorResponse,
-} = require("../utils/responses");
+} = require('../helpers/responses');
 
 const register = async (req, res) => {
     try {
@@ -17,7 +17,8 @@ const register = async (req, res) => {
         }
         return sendErrorResponse(res, createUser.message, {}, 400);
     } catch (err) {
-        return sendErrorResponse(res, "UKNOWN_ERROR", {}, 500);
+        console.log(err);
+        return sendErrorResponse(res, 'UKNOWN_ERROR', {}, 500);
     }
 };
 
@@ -30,7 +31,7 @@ const login = async (req, res) => {
         return sendErrorResponse(res, login.message, {}, 400);
     } catch (err) {
         console.log(err);
-        return sendErrorResponse(res, "UKNOWN_ERROR", {}, 500);
+        return sendErrorResponse(res, 'UKNOWN_ERROR', {}, 500);
     }
 };
 
