@@ -1,4 +1,6 @@
 const jwt = require("jsonwebtoken");
+const UserModel = require("../models/user");
+const { makeResponse } = require("./responses");
 
 const generateJWT = (user) => {
     return jwt.sign(
@@ -26,13 +28,14 @@ const verifyToken = async (token) => {
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
 
-        const user = await UserModel.findOne(decoded._id);
+        const user = await UserModel.findOne({ _id: decoded._id });
+
         if (!user) {
             return makeResponse(false, INVALID_TOKEN, {});
         }
         return makeResponse(true, "", user);
     } catch (err) {
-        return makeResponse(false, INVALID_TOKEN, {});
+        return makeResponse(false, "INVALID_TOKEN", {});
     }
 };
 

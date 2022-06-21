@@ -22,4 +22,6 @@ const register = async (req, res) => {
     }
 };
 
-module.exports = { register };
+const createAdmin = async (req, res) => {};
+
+module.exports = { register, createAdmin };
