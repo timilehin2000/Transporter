@@ -5,6 +5,8 @@ const { generateJWT } = require("../helpers/utils");
 const { findUserByEmail } = require("../helpers/query");
 
 const registerUser = async (payload) => {
+    const { email, firstName, lastName, password, isAdmin } = payload;
+
     const existingUser = await findUserByEmail(UserModel, payload.email);
 
     if (existingUser) {
@@ -12,10 +14,10 @@ const registerUser = async (payload) => {
     }
 
     const newUser = new UserModel({
-        email: payload.email,
-        firstName: payload.firstName,
-        lastName: payload.lastName,
-        password: payload.password,
+        email: email,
+        firstName: firstName,
+        lastName: lastName,
+        password: password,
         isAdmin: false,
     });
 

@@ -1,4 +1,4 @@
-const { registerAdmin, loginUser } = require("../dao/admin");
+const { registerAdmin } = require("../dao/admin");
 const {
     sendSuccessResponse,
     sendErrorResponse,
@@ -22,6 +22,6 @@ const register = async (req, res) => {
     }
 };
 
-const createAdmin = async (req, res) => {};
+// const createAdmin = async (req, res) => {};
 
-module.exports = { register, createAdmin };
+module.exports = { register };
