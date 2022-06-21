@@ -2,13 +2,10 @@ const bcrypt = require("bcryptjs");
 const UserModel = require("../models/user");
 const { makeResponse } = require("../helpers/responses");
 const { generateJWT } = require("../helpers/utils");
-
-const findUserByEmail = async (email) => {
-    return await UserModel.findOne({ email });
-};
+const findUserByEmail = require("../helpers/query");
 
 const registerUser = async (payload) => {
-    const existingUser = await findUserByEmail(payload.email);
+    const existingUser = await findUserByEmail(UserModel, payload.email);
 
     if (existingUser) {
         return makeResponse(false, "EMAIL_DUPLICATE", {});

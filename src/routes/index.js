@@ -1,7 +1,9 @@
 const userRouter = require("./user");
+const adminRouter = require("./admin");
 
 const index = (app) => {
     app.use("/api/v1/", userRouter);
+    app.use("/api/v1", adminRouter);
 
     app.use("*", (req, res) => {
         res.status(404).json({
