@@ -4,11 +4,10 @@ const { verifyToken } = require("../helpers/utils");
 const UserModel = require("../models/user");
 
 const onlyAdmin = async (req, res, next) => {
+    const { email } = req.user;
     try {
-        const checkAdmin = await findUserByEmail(UserModel, req.body.email);
-        if (!checkAdmin) {
-            return next();
-        }
+        const checkAdmin = await findUserByEmail(UserModel, email);
+
         if (!checkAdmin.isAdmin) {
             return sendErrorResponse(res, "ONLY_ADMIN", {}, 403);
         }
