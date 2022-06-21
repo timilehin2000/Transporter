@@ -18,6 +18,21 @@ const onlyAdmin = async (req, res, next) => {
     }
 };
 
+const onlyUser = async (req, res, next) => {
+    const { email } = req.user;
+    try {
+        const checkUser = await findUserByEmail(UserModel, email);
+
+        if (!checkUser.isAdmin) {
+            return sendErrorResponse(res, "ONLY_ADMIN", {}, 403);
+        }
+        return next();
+    } catch (err) {
+        console.log(err);
+        return err;
+    }
+};
+
 const authTokenRequired = async (req, res, next) => {
     const token = req.headers.authorization;
 
@@ -34,4 +49,4 @@ const authTokenRequired = async (req, res, next) => {
     return next();
 };
 
-module.exports = { onlyAdmin, authTokenRequired };
+module.exports = { onlyAdmin, authTokenRequired, onlyUser };

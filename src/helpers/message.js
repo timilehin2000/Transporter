@@ -12,7 +12,8 @@ class Message {
             LOGIN_SUCCESS: "Successfully logged in",
             UPDATE_SUCCESS: "Successfully updated user",
             USER_QUERY_SUCCESS: "Successfully queried user",
-            ONLY_ADMIN: "Only Admin is allowed",
+            ONLY_ADMIN: "Only Admins are allowed to take this action",
+            ONLY_USER: "Only users are allowed take this action",
         };
     }
     getMessages(key) {

@@ -6,15 +6,15 @@ const {
     validateLoginPayload,
 } = require("../validations/user");
 
-const userRouter = express.Router();
+const adminRouter = express.Router();
 
-userRouter.post("/auth/admin/register", validateRegisterPayload, register);
-userRouter.post(
-    "/auth/admin",
-    validateLoginPayload,
+adminRouter.post("/auth/admin/register/", validateRegisterPayload, register);
+adminRouter.post(
+    "/auth/admin/",
+    validateRegisterPayload,
     authTokenRequired,
     onlyAdmin,
     register
 );
 
-module.exports = userRouter;
+module.exports = adminRouter;
