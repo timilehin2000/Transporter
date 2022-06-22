@@ -7,8 +7,9 @@ const addTrip = async (payload) => {
     const { busId, origin, destination, tripDate, departureTime, fare } =
         payload;
 
-    const findBus = findItemById(BusModel, busId);
-    if (findBus.status === false) {
+    const { status, message, data } = await findItemById(BusModel, busId);
+
+    if (!status) {
         return makeResponse(false, "BUS_NOT_FOUND", {});
     }
 
@@ -23,9 +24,22 @@ const addTrip = async (payload) => {
     });
 
     try {
-        await newBus.save();
+        await newTrip.save();
         return makeResponse(true, "TRIP_CREATED", newTrip);
     } catch (err) {
+        console.log(err);
+        return makeResponse(false, "UNKNOWN_ERROR", {});
+    }
+};
+
+const fetchAllTrips = async () => {
+    const { origin, destination } = req.query;
+    // if
+    try {
+        const trips = await TripModel.find();
+        return makeResponse(true, "TRIPS_FETCHED", trips);
+    } catch (err) {
+        console.log(err);
         return makeResponse(false, "UNKNOWN_ERROR", {});
     }
 };

@@ -34,8 +34,6 @@ const registerUser = async (payload) => {
 const loginUser = async (payload) => {
     const { status, data } = await findUserByEmail(UserModel, payload.email);
 
-    console.log(data);
-
     if (!status) {
         return makeResponse(false, "INVALID_CREDENTIALS", {});
     }

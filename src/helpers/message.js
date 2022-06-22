@@ -20,6 +20,7 @@ class Message {
             BUSES_FETCHED: "Buses fetched succesfully",
             ITEM_QUERY_SUCCESS: "Successfully queried item",
             ITEM_QUERY_FAILURE: "Item does not exist",
+            TRIP_CREATED: "New trip has been successfully created",
         };
     }
     getMessages(key) {

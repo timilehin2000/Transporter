@@ -1,3 +1,4 @@
+const { addTrip } = require("../dao/trip");
 const {
     sendErrorResponse,
     sendSuccessResponse,
@@ -5,17 +6,13 @@ const {
 
 const addTripDetails = async (req, res) => {
     try {
-        const createTrip = await addBus(req.body);
-        if (createTrip.status) {
-            return sendSuccessResponse(
-                res,
-                createTrip.message,
-                createTrip.data,
-                201
-            );
+        const { status, message, data } = await addTrip(req.body);
+        if (status) {
+            return sendSuccessResponse(res, message, data, 201);
         }
-        return sendErrorResponse(res, createTrip.message, {}, 400);
+        return sendErrorResponse(res, message, {}, 400);
     } catch (err) {
+        console.log(err);
         return sendErrorResponse(res, "UKNOWN_ERROR", {}, 500);
     }
 };

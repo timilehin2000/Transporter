@@ -7,7 +7,7 @@ const createTripPayloadValidation = (payload) => {
         origin: Joi.string().required(),
         destination: Joi.string().required(),
         tripDate: Joi.date().required(),
-        departureTime: Joi.date().required(),
+        departureTime: Joi.string().required(),
         fare: Joi.string().required(),
     }).required();
 
