@@ -16,7 +16,10 @@ class Message {
             ONLY_ADMIN: "Only Admins are allowed to take this action",
             ONLY_USER: "Only users are allowed take this action",
             BUS_ADDED: "New bus has been successfully added",
+            BUS_NOT_FOUND: "Bus not found",
             BUSES_FETCHED: "Buses fetched succesfully",
+            ITEM_QUERY_SUCCESS: "Successfully queried item",
+            ITEM_QUERY_FAILURE: "Item does not exist",
         };
     }
     getMessages(key) {

@@ -8,6 +8,9 @@ const addTrip = async (payload) => {
         payload;
 
     const findBus = findItemById(BusModel, busId);
+    if (findBus.status === false) {
+        return makeResponse(false, "BUS_NOT_FOUND", {});
+    }
 
     const newTrip = new TripModel({
         busId,

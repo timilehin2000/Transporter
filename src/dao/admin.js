@@ -6,7 +6,7 @@ const { findUserByEmail } = require("../helpers/query");
 const registerAdmin = async (payload) => {
     const existingAdmin = await findUserByEmail(UserModel, payload.email);
 
-    if (existingAdmin) {
+    if (existingAdmin.status) {
         return makeResponse(false, "EMAIL_DUPLICATE", {});
     }
 

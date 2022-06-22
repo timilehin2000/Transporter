@@ -32,23 +32,23 @@ const registerUser = async (payload) => {
 };
 
 const loginUser = async (payload) => {
-    const existingUser = await findUserByEmail(UserModel, payload.email);
+    const { status, data } = await findUserByEmail(UserModel, payload.email);
 
-    if (!existingUser.status) {
+    console.log(data);
+
+    if (!status) {
         return makeResponse(false, "INVALID_CREDENTIALS", {});
     }
 
-    const validatePassword = await existingUser.data.comparePassword(
-        payload.password
-    );
+    const validatePassword = await data.comparePassword(payload.password);
 
     if (!validatePassword) {
         return makeResponse(false, "INVALID_CREDENTIALS", {});
     }
 
-    let token = generateJWT(existingUser);
+    let token = generateJWT(data);
 
-    return makeResponse(true, "LOGIN_SUCCESS", { user: existingUser, token });
+    return makeResponse(true, "LOGIN_SUCCESS", { user: data, token });
 };
 
 module.exports = {

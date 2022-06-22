@@ -1,6 +1,6 @@
 const express = require("express");
 const { register, createAdmin } = require("../controller/admin");
-const { onlyAdmin, authTokenRequired } = require("../middleware/auth");
+const { onlyAdmin, authTokenRequired, auth } = require("../middleware/auth");
 const {
     validateRegisterPayload,
     validateLoginPayload,
