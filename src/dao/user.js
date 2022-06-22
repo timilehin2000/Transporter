@@ -5,11 +5,11 @@ const { generateJWT } = require("../helpers/utils");
 const { findUserByEmail } = require("../helpers/query");
 
 const registerUser = async (payload) => {
-    const { email, firstName, lastName, password, isAdmin } = payload;
+    const { email, firstName, lastName, password } = payload;
 
     const existingUser = await findUserByEmail(UserModel, payload.email);
 
-    if (existingUser) {
+    if (existingUser.status) {
         return makeResponse(false, "EMAIL_DUPLICATE", {});
     }
 
@@ -34,11 +34,11 @@ const registerUser = async (payload) => {
 const loginUser = async (payload) => {
     const existingUser = await findUserByEmail(UserModel, payload.email);
 
-    if (!existingUser) {
+    if (!existingUser.status) {
         return makeResponse(false, "INVALID_CREDENTIALS", {});
     }
 
-    const validatePassword = await existingUser.comparePassword(
+    const validatePassword = await existingUser.data.comparePassword(
         payload.password
     );
 

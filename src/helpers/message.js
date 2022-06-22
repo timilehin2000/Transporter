@@ -12,6 +12,7 @@ class Message {
             LOGIN_SUCCESS: "Successfully logged in",
             UPDATE_SUCCESS: "Successfully updated user",
             USER_QUERY_SUCCESS: "Successfully queried user",
+            USER_QUERY_FAILURE: "User does not exist",
             ONLY_ADMIN: "Only Admins are allowed to take this action",
             ONLY_USER: "Only users are allowed take this action",
             BUS_ADDED: "New bus has been successfully added",

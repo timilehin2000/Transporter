@@ -1,11 +1,13 @@
 const userRouter = require("./user");
 const adminRouter = require("./admin");
 const busRouter = require("./bus");
+const tripRouter = require("./trip");
 
 const index = (app) => {
     app.use("/api/v1", userRouter);
     app.use("/api/v1", adminRouter);
     app.use("/api/v1", busRouter);
+    app.use("/api/v1", tripRouter);
 
     app.use("*", (req, res) => {
         res.status(404).json({
