@@ -32,16 +32,40 @@ const addTrip = async (payload) => {
     }
 };
 
-const fetchAllTrips = async () => {
-    const { origin, destination } = req.query;
-    // if
+const fetchAllTrips = async (payload) => {
+    const { page, limit, origin, destination } = payload;
+
+    let filter = {};
+
+    if (origin) {
+        filter.origin = origin;
+    }
+    if (destination) {
+        filter.destination = destination;
+    }
+
+    let pageNo = page ? parseInt(page) : 1;
+    let pageLimit = limit ? parseInt(limit) : 10;
+    let skip = pageNo === 1 ? 0 : (pageNo - 1) * limit;
+
     try {
-        const trips = await TripModel.find();
-        return makeResponse(true, "TRIPS_FETCHED", trips);
+        const trips = await TripModel.find(filter)
+            .sort({
+                createdAt: -1,
+                tripDate: -1,
+            })
+            .skip(skip)
+            .limit(pageLimit);
+
+        return makeResponse(true, "TRIPS_FETCHED", {
+            next: pageNo + 1,
+            previous: pageNo === 1 ? 0 : pageNo - 1,
+            trips,
+        });
     } catch (err) {
         console.log(err);
         return makeResponse(false, "UNKNOWN_ERROR", {});
     }
 };
 
-module.exports = { addTrip };
+module.exports = { addTrip, fetchAllTrips };

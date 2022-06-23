@@ -1,5 +1,5 @@
 const express = require("express");
-const { addTripDetails } = require("../controller/trip");
+const { addTripDetails, fetchTripsDetails } = require("../controller/trip");
 const { onlyAdmin, authTokenRequired } = require("../middleware/auth");
 const { validateCreateTripPayload } = require("../validations/trip");
 
@@ -12,5 +12,7 @@ tripRouter.post(
     onlyAdmin,
     addTripDetails
 );
+
+tripRouter.get("/trip/", authTokenRequired, onlyAdmin, fetchTripsDetails);
 
 module.exports = tripRouter;

@@ -1,4 +1,4 @@
-const { addTrip } = require("../dao/trip");
+const { addTrip, fetchAllTrips } = require("../dao/trip");
 const {
     sendErrorResponse,
     sendSuccessResponse,
@@ -17,4 +17,15 @@ const addTripDetails = async (req, res) => {
     }
 };
 
-module.exports = { addTripDetails };
+const fetchTripsDetails = async (req, res) => {
+    try {
+        const { status, message, data } = await fetchAllTrips(req.query);
+        if (status) {
+            return sendSuccessResponse(res, message, data, 200);
+        }
+        return sendErrorResponse(res, message, {}, 400);
+    } catch (err) {
+        return sendErrorResponse(res, "UKNOWN_ERROR", {}, 500);
+    }
+};
+module.exports = { addTripDetails, fetchTripsDetails };
