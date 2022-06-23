@@ -26,4 +26,12 @@ const findItemById = async (Model, id) => {
     }
 };
 
-module.exports = { findUserByEmail, findItemById };
+function pagination(page, limit) {
+    let pageNo = page ? parseInt(page) : 1;
+    let pageLimit = limit ? parseInt(limit) : 10;
+    let skip = pageNo === 1 ? 0 : (pageNo - 1) * limit;
+
+    return { pageLimit, skip };
+}
+
+module.exports = { findUserByEmail, findItemById, pagination };

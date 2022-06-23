@@ -21,6 +21,8 @@ class Message {
             ITEM_QUERY_SUCCESS: "Successfully queried item",
             ITEM_QUERY_FAILURE: "Item does not exist",
             TRIP_CREATED: "New trip has been successfully created",
+            TRIPS_FETCHED: "Trip(s) fetched succesfully",
+            TRIPS_EMPTY: "There is available trips",
         };
     }
     getMessages(key) {

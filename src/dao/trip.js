@@ -1,4 +1,4 @@
-const { findItemById } = require("../helpers/query");
+const { findItemById, pagination } = require("../helpers/query");
 const { makeResponse } = require("../helpers/responses");
 const BusModel = require("../models/bus");
 const TripModel = require("../models/trip");
@@ -44,9 +44,7 @@ const fetchAllTrips = async (payload) => {
         filter.destination = destination;
     }
 
-    let pageNo = page ? parseInt(page) : 1;
-    let pageLimit = limit ? parseInt(limit) : 10;
-    let skip = pageNo === 1 ? 0 : (pageNo - 1) * limit;
+    const { pageLimit, skip } = pagination(page, limit);
 
     try {
         const trips = await TripModel.find(filter)
@@ -57,11 +55,11 @@ const fetchAllTrips = async (payload) => {
             .skip(skip)
             .limit(pageLimit);
 
-        return makeResponse(true, "TRIPS_FETCHED", {
-            next: pageNo + 1,
-            previous: pageNo === 1 ? 0 : pageNo - 1,
-            trips,
-        });
+        if (trips.length === 0) {
+            return makeResponse(true, "TRIPS_EMPTY", {});
+        }
+
+        return makeResponse(true, "TRIPS_FETCHED", trips);
     } catch (err) {
         console.log(err);
         return makeResponse(false, "UNKNOWN_ERROR", {});
