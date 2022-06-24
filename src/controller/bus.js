@@ -5,6 +5,7 @@ const {
 } = require("../helpers/responses");
 
 const addBusDetails = async (req, res) => {
+    console.log(req.user);
     try {
         const createBus = await addBus(req.body);
         if (createBus.status) {

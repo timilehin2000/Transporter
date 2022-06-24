@@ -3,7 +3,7 @@ const { register, login } = require("../controller/user");
 const {
     validateRegisterPayload,
     validateLoginPayload,
-} = require("../validations/user");
+} = require("../helpers/validations/user");
 
 const userRouter = express.Router();
 

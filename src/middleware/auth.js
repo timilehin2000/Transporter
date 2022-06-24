@@ -23,10 +23,10 @@ const onlyAdmin = async (req, res, next) => {
 const onlyUser = async (req, res, next) => {
     const { email } = req.user;
     try {
-        const checkUser = await findUserByEmail(UserModel, email);
+        const { data } = await findUserByEmail(UserModel, email);
 
-        if (!checkUser.isAdmin) {
-            return sendErrorResponse(res, "ONLY_ADMIN", {}, 403);
+        if (data.isAdmin) {
+            return sendErrorResponse(res, "ONLY_USER", {}, 403);
         }
         return next();
     } catch (err) {
@@ -36,10 +36,8 @@ const onlyUser = async (req, res, next) => {
 };
 
 const authTokenRequired = async (req, res, next) => {
-    if (req.headers["x-access-token"] || req.headers.authorization) {
-        const token =
-            req.headers["x-access-token"] ||
-            req.headers.authorization.replace("Bearer ", "");
+    if (req.headers.authorization) {
+        const token = req.headers.authorization.replace("Bearer ", "");
 
         try {
             const verifiedUser = jwt.verify(token, process.env.JWT_SECRET_KEY);
@@ -50,13 +48,12 @@ const authTokenRequired = async (req, res, next) => {
                 });
             }
 
-            const user = await UserModel.findOne({ token });
+            const user = await UserModel.findOne({ email: verifiedUser.email });
 
             if (!user)
                 return res.status(401).json({ message: "Access Denied" });
 
             req.user = user;
-            req.token = token;
 
             next();
         } catch (err) {

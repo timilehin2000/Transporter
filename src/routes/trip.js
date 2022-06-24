@@ -1,7 +1,7 @@
 const express = require("express");
 const { addTripDetails, fetchTripsDetails } = require("../controller/trip");
 const { onlyAdmin, authTokenRequired } = require("../middleware/auth");
-const { validateCreateTripPayload } = require("../validations/trip");
+const { validateCreateTripPayload } = require("../helpers/validations/trip");
 
 const tripRouter = express.Router();
 

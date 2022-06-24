@@ -1,20 +1,22 @@
 const UserModel = require("../models/user");
 const { makeResponse } = require("../helpers/responses");
 const { generateJWT } = require("../helpers/utils");
-const { findUserByEmail } = require("../helpers/query");
+const { findUserByEmail, updateItemByEmail } = require("../helpers/query");
 
 const registerAdmin = async (payload) => {
-    const existingAdmin = await findUserByEmail(UserModel, payload.email);
+    const { email, firstName, lastName, password, isAdmin } = payload;
 
-    if (existingAdmin.status) {
+    const { status } = await findUserByEmail(UserModel, email);
+
+    if (status) {
         return makeResponse(false, "EMAIL_DUPLICATE", {});
     }
 
     const newAdmin = new UserModel({
-        email: payload.email,
-        firstName: payload.firstName,
-        lastName: payload.lastName,
-        password: payload.password,
+        email,
+        firstName,
+        lastName,
+        password,
         isAdmin: true,
     });
 
@@ -28,4 +30,24 @@ const registerAdmin = async (payload) => {
     return makeResponse(true, "REGISTER_SUCCESS", { newAdmin, token });
 };
 
-module.exports = { registerAdmin };
+const updateToAdmin = async (payload) => {
+    const { email, isAdmin } = payload;
+
+    const { status, data } = await findUserByEmail(UserModel, email);
+
+    if (!status) {
+        return makeResponse(false, "USER_QUERY_FAILURE", {});
+    }
+
+    if (data.isAdmin) {
+        return makeResponse(false, "USER_ALREADY_ADMIN", {});
+    }
+
+    const updatedAdmin = await updateItemByEmail(UserModel, email, { isAdmin });
+
+    if (updatedAdmin.status) {
+        return makeResponse(true, "ITEM_UPDATE_SUCCESS", updatedAdmin.data);
+    }
+    return makeResponse(false, "ITEM_UPDATE_FAILURE", {});
+};
+module.exports = { registerAdmin, updateToAdmin };

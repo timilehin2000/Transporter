@@ -44,7 +44,7 @@ const fetchAllTrips = async (payload) => {
         filter.destination = destination;
     }
 
-    const { pageLimit, skip } = pagination(page, limit);
+    const { pageLimit, skip, pageNo } = pagination(page, limit);
 
     try {
         const trips = await TripModel.find(filter)

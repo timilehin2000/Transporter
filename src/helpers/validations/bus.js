@@ -1,5 +1,5 @@
 const Joi = require("joi");
-const { handleValidationError } = require("../helpers/responses");
+const { handleValidationError } = require("../responses");
 
 const addBusPayloadValidation = (payload) => {
     const schema = Joi.object({

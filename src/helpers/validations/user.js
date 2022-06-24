@@ -1,9 +1,5 @@
 const Joi = require("joi");
-const { verifyToken } = require("../dao/user");
-const {
-    handleValidationError,
-    sendErrorResponse,
-} = require("../helpers/responses");
+const { handleValidationError } = require("../responses");
 
 const registerPayloadValidation = (payload) => {
     const schema = Joi.object({
@@ -39,7 +35,24 @@ const validateLoginPayload = (req, res, next) => {
     return next();
 };
 
+const updateUserToAdminPayloadValidation = (payload) => {
+    const schema = Joi.object({
+        email: Joi.string().required(),
+        isAdmin: Joi.boolean().required(),
+    }).required();
+    return schema.validate(payload, { allowUnknown: true });
+};
+
+const validateUpdateUserToAdminPayload = (req, res, next) => {
+    const validated = updateUserToAdminPayloadValidation(req.body);
+    if (validated.error) {
+        return handleValidationError(validated, res);
+    }
+    return next();
+};
+
 module.exports = {
     validateRegisterPayload,
     validateLoginPayload,
+    validateUpdateUserToAdminPayload,
 };

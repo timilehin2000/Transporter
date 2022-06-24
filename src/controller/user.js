@@ -25,6 +25,7 @@ const register = async (req, res) => {
 const login = async (req, res) => {
     try {
         const login = await loginUser(req.body);
+
         if (login.status) {
             return sendSuccessResponse(
                 res,

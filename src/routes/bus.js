@@ -1,7 +1,7 @@
 const express = require("express");
 const { addBusDetails, fetchAllBuses } = require("../controller/bus");
 const { onlyAdmin, authTokenRequired, auth } = require("../middleware/auth");
-const { validateAddBusPayload } = require("../validations/bus");
+const { validateAddBusPayload } = require("../helpers/validations/bus");
 
 const busRouter = express.Router();
 

@@ -32,13 +32,15 @@ const registerUser = async (payload) => {
 };
 
 const loginUser = async (payload) => {
-    const { status, data } = await findUserByEmail(UserModel, payload.email);
+    const { email, password } = payload;
+
+    const { status, data } = await findUserByEmail(UserModel, email);
 
     if (!status) {
         return makeResponse(false, "INVALID_CREDENTIALS", {});
     }
 
-    const validatePassword = await data.comparePassword(payload.password);
+    const validatePassword = await data.comparePassword(password);
 
     if (!validatePassword) {
         return makeResponse(false, "INVALID_CREDENTIALS", {});
