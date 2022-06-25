@@ -18,6 +18,23 @@ const validateCreateBookingPayload = (req, res, next) => {
     return next();
 };
 
+const deleteBookingPayloadValidation = (payload) => {
+    const schema = Joi.object({
+        bookingId: Joi.string().required(),
+    }).required();
+
+    return schema.validate(payload, { allowUnknown: true });
+};
+
+const validateDeletePayloadValidation = (req, res, next) => {
+    const validated = deleteBookingPayloadValidation(req.params);
+    if (validated.error) {
+        return handleValidationError(validated, res);
+    }
+    return next();
+};
+
 module.exports = {
     validateCreateBookingPayload,
+    validateDeletePayloadValidation,
 };

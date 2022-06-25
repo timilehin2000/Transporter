@@ -1,9 +1,14 @@
 const express = require("express");
-const { addBookingDetails } = require("../controller/booking");
+const {
+    addBookingDetails,
+    removeBooking,
+    getAllBookings,
+} = require("../controller/booking");
 
 const { authTokenRequired, onlyUser } = require("../middleware/auth");
 const {
     validateCreateBookingPayload,
+    validateDeletePayloadValidation,
 } = require("../helpers/validations/booking");
 
 const bookingRouter = express.Router();
@@ -16,6 +21,14 @@ bookingRouter.post(
     addBookingDetails
 );
 
-// bookingRouter.get("/bus", authTokenRequired, onlyAdmin, fetchAllBuses);
+bookingRouter.delete(
+    "/booking/:bookingId",
+    authTokenRequired,
+    validateDeletePayloadValidation,
+    onlyUser,
+    removeBooking
+);
+
+bookingRouter.get("/booking/", authTokenRequired, onlyUser, getAllBookings);
 
 module.exports = bookingRouter;

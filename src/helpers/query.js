@@ -1,8 +1,8 @@
 const { makeResponse } = require("./responses");
 
-const findUserByEmail = async (Model, email) => {
+const findUserByEmail = async (model, email) => {
     try {
-        const findUser = await Model.findOne({ email });
+        const findUser = await model.findOne({ email });
 
         if (!findUser) {
             return makeResponse(false, "USER_QUERY_FAILURE", {});
@@ -13,9 +13,9 @@ const findUserByEmail = async (Model, email) => {
     }
 };
 
-const findItemById = async (Model, id) => {
+const findItemById = async (model, id) => {
     try {
-        const findItem = await Model.findById({ _id: id });
+        const findItem = await model.findById({ _id: id });
 
         if (!findItem) {
             return makeResponse(false, "ITEM_QUERY_FAILURE", {});
@@ -26,9 +26,9 @@ const findItemById = async (Model, id) => {
     }
 };
 
-const updateItemByEmail = async (Model, email, param) => {
+const updateItemByEmail = async (model, email, param) => {
     try {
-        const updateItem = await Model.findOneAndUpdate({ email }, param, {
+        const updateItem = await model.findOneAndUpdate({ email }, param, {
             new: true,
         });
 
@@ -36,6 +36,24 @@ const updateItemByEmail = async (Model, email, param) => {
             return makeResponse(false, "ITEM_UPDATE_FAILURE", {});
         }
         return makeResponse(true, "ITEM_UPDATE_SUCCESS", updateItem);
+    } catch (err) {
+        return makeResponse(false, "UNKNOWN_ERROR", {});
+    }
+};
+
+// const fetchAll = async () => {
+//     try {
+//     } catch (err) {}
+// };
+
+const findItemByIdAndDelete = async (Model, id) => {
+    try {
+        const deletedItem = await Model.findByIdAndDelete({ _id: id });
+
+        if (!deletedItem) {
+            return makeResponse(false, "ITEM_QUERY_FAILURE", {});
+        }
+        return makeResponse(true, "ITEM_DELETE_SUCCESS", deletedItem);
     } catch (err) {
         return makeResponse(false, "UNKNOWN_ERROR", {});
     }
@@ -53,5 +71,6 @@ module.exports = {
     findUserByEmail,
     findItemById,
     updateItemByEmail,
+    findItemByIdAndDelete,
     pagination,
 };

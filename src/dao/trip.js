@@ -66,4 +66,4 @@ const fetchAllTrips = async (payload) => {
     }
 };
 
-module.exports = { addTrip, fetchAllTrips };
+const cancelTrip = (module.exports = { addTrip, fetchAllTrips });

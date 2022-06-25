@@ -28,6 +28,8 @@ class Message {
             TRIP_CREATED: "New trip has been successfully created",
             TRIPS_FETCHED: "Trip(s) fetched succesfully",
             TRIPS_EMPTY: "There is available trips",
+            BOOING_NOT_FOUND: "Booking does not exist",
+            BOOKING_DELETED: "Booking successfully deleted",
         };
     }
     getMessages(key) {
