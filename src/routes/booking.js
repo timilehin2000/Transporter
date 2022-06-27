@@ -3,12 +3,14 @@ const {
     addBookingDetails,
     removeBooking,
     getAllBookings,
+    updateBookingSeat,
 } = require("../controller/booking");
 
 const { authTokenRequired, onlyUser } = require("../middleware/auth");
 const {
     validateCreateBookingPayload,
     validateDeletePayloadValidation,
+    validateUpdatePayloadValidation,
 } = require("../helpers/validations/booking");
 
 const bookingRouter = express.Router();
@@ -27,6 +29,14 @@ bookingRouter.delete(
     validateDeletePayloadValidation,
     onlyUser,
     removeBooking
+);
+
+bookingRouter.patch(
+    "/booking/",
+    authTokenRequired,
+    validateUpdatePayloadValidation,
+    onlyUser,
+    updateBookingSeat
 );
 
 bookingRouter.get("/booking/", authTokenRequired, onlyUser, getAllBookings);

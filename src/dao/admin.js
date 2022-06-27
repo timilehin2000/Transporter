@@ -1,7 +1,7 @@
 const UserModel = require("../models/user");
 const { makeResponse } = require("../helpers/responses");
 const { generateJWT } = require("../helpers/utils");
-const { findUserByEmail, updateItemByEmail } = require("../helpers/query");
+const { findUserByEmail, findByEmailAndUpdate } = require("../helpers/query");
 
 const registerAdmin = async (payload) => {
     const { email, firstName, lastName, password, isAdmin } = payload;
@@ -43,7 +43,9 @@ const updateToAdmin = async (payload) => {
         return makeResponse(false, "USER_ALREADY_ADMIN", {});
     }
 
-    const updatedAdmin = await updateItemByEmail(UserModel, email, { isAdmin });
+    const updatedAdmin = await findByEmailAndUpdate(UserModel, email, {
+        isAdmin,
+    });
 
     if (updatedAdmin.status) {
         return makeResponse(true, "ITEM_UPDATE_SUCCESS", updatedAdmin.data);

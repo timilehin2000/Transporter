@@ -1,4 +1,8 @@
-const { findItemById, findItemByIdAndDelete } = require("../helpers/query");
+const {
+    findItemById,
+    findItemByIdAndDelete,
+    findItemByIdAndUpdate,
+} = require("../helpers/query");
 const { makeResponse } = require("../helpers/responses");
 const BookingModel = require("../models/booking");
 const TripModel = require("../models/trip");
@@ -64,4 +68,27 @@ const deleteBooking = async (payload) => {
     }
 };
 
-module.exports = { addBooking, deleteBooking, fetchAllBookings };
+const updateBooking = async (payload) => {
+    const { bookingId, seatNumber } = payload;
+
+    const { status } = await findItemById(BookingModel, bookingId);
+    if (!status) {
+        return makeResponse(false, "BOOKING_NOT_FOUND", {});
+    }
+
+    try {
+        const updateItem = await findItemByIdAndUpdate(
+            BookingModel,
+            bookingId,
+            { seatNumber }
+        );
+        if (updateItem.status) {
+            return makeResponse(true, "BOOKING_UPDATED", updateItem.data);
+        }
+    } catch (err) {
+        console.log(err);
+        return makeResponse(false, "UNKNOWN_ERROR", {});
+    }
+};
+
+module.exports = { addBooking, deleteBooking, fetchAllBookings, updateBooking };

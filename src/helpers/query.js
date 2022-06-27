@@ -26,7 +26,7 @@ const findItemById = async (model, id) => {
     }
 };
 
-const updateItemByEmail = async (model, email, param) => {
+const findByEmailAndUpdate = async (model, email, param) => {
     try {
         const updateItem = await model.findOneAndUpdate({ email }, param, {
             new: true,
@@ -41,10 +41,20 @@ const updateItemByEmail = async (model, email, param) => {
     }
 };
 
-// const fetchAll = async () => {
-//     try {
-//     } catch (err) {}
-// };
+const findItemByIdAndUpdate = async (model, id, param) => {
+    try {
+        const updateItem = await model.findOneAndUpdate({ _id: id }, param, {
+            new: true,
+        });
+
+        if (!updateItem) {
+            return makeResponse(false, "ITEM_UPDATE_FAILURE", {});
+        }
+        return makeResponse(true, "ITEM_UPDATE_SUCCESS", updateItem);
+    } catch (err) {
+        return makeResponse(false, "UNKNOWN_ERROR", {});
+    }
+};
 
 const findItemByIdAndDelete = async (Model, id) => {
     try {
@@ -70,7 +80,8 @@ const pagination = (page, limit) => {
 module.exports = {
     findUserByEmail,
     findItemById,
-    updateItemByEmail,
+    findByEmailAndUpdate,
     findItemByIdAndDelete,
+    findItemByIdAndUpdate,
     pagination,
 };

@@ -2,6 +2,7 @@ const {
     addBooking,
     deleteBooking,
     fetchAllBookings,
+    updateBooking,
 } = require("../dao/booking");
 const {
     sendErrorResponse,
@@ -47,4 +48,22 @@ const getAllBookings = async (req, res) => {
     }
 };
 
-module.exports = { addBookingDetails, removeBooking, getAllBookings };
+const updateBookingSeat = async (req, res) => {
+    try {
+        const { status, message, data } = await updateBooking(req.body);
+        if (status) {
+            return sendSuccessResponse(res, message, data, 200);
+        }
+        return sendErrorResponse(res, message, {}, 400);
+    } catch (err) {
+        console.log(err);
+        return sendErrorResponse(res, "UNKNOWN_ERROR", {}, 500);
+    }
+};
+
+module.exports = {
+    addBookingDetails,
+    removeBooking,
+    getAllBookings,
+    updateBookingSeat,
+};

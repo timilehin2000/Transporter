@@ -1,4 +1,9 @@
-const { findItemById, pagination } = require("../helpers/query");
+const {
+    findItemById,
+    pagination,
+    findByEmailAndUpdate,
+    findItemByIdAndUpdate,
+} = require("../helpers/query");
 const { makeResponse } = require("../helpers/responses");
 const BusModel = require("../models/bus");
 const TripModel = require("../models/trip");
@@ -7,7 +12,7 @@ const addTrip = async (payload) => {
     const { busId, origin, destination, tripDate, departureTime, fare } =
         payload;
 
-    const { status, message, data } = await findItemById(BusModel, busId);
+    const { status } = await findItemById(BusModel, busId);
 
     if (!status) {
         return makeResponse(false, "BUS_NOT_FOUND", {});
@@ -66,4 +71,17 @@ const fetchAllTrips = async (payload) => {
     }
 };
 
-const cancelTrip = (module.exports = { addTrip, fetchAllTrips });
+const cancelTrip = async () => {
+    const { tripId, status } = payload;
+
+    const updateItem = await findItemByIdAndUpdate(TripModel, tripId, {
+        status,
+    });
+
+    if (updateItem.status) {
+        return makeResponse(true, "ITEM_UPDATE_SUCCESS", updatedAdmin.data);
+    }
+    return makeResponse(false, "ITEM_UPDATE_FAILURE", {});
+};
+
+module.exports = { addTrip, fetchAllTrips, cancelTrip };
